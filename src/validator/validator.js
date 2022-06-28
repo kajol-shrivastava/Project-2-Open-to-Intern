@@ -20,9 +20,26 @@ const isValidRequest = function (data) {
   return true;
 };
 
+const isValidMail = function (v) {
+  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+};
+
+
+  const isValidMobile = function (num) {
+    return /^[6789]\d{9}$/.test(num);
+  };
+  
+
+
+
+
+
+
 module.exports = {
   isValid,
   isValidLink,
   isValidName,
   isValidRequest,
+  isValidMail,
+  isValidMobile
 };
