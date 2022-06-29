@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const objectId = mongoose.Types.Schema.ObjectId;
+const objectId = mongoose.Schema.Types.ObjectId;
 
 const internSchema = new mongoose.Schema({
-  name: { type: String, require: "Name is required" },
+  name: { type: String, required: "Name is required" },
   email: {
     type: String,
     required: true,
@@ -15,9 +15,9 @@ const internSchema = new mongoose.Schema({
       message: "Please enter a valid email",
     },
   },
-  mobile: { type: Number, require: "Mobile number is required", unique: true },
+  mobile: { type: Number, required: "Mobile number is required", unique: true },
   collegeId: { type: objectId, ref: "college" },
-  isDeleted: { type: boolean, default: false },
+  isDeleted: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Intern", internSchema);
