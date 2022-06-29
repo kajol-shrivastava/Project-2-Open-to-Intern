@@ -117,6 +117,7 @@ const getDetails = async function (req, res) {
       .select({ name: 1, fullName: 1, logoLink: 1, _id: 0 });
 
     finalData._doc["interns"] = getIntern;
+    
 
     return res.status(200).send({ status: true, data: finalData });
   } catch (err) {

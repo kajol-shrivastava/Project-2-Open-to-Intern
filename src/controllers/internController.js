@@ -5,6 +5,7 @@ const {
   isValidName,
   isValidMobile,
   isValidMail,
+  isValidIntern
 } = require("../validator/validator");
 
 // -----------------------------------create Intern-----------------------------------
@@ -23,10 +24,10 @@ const createIntern = async function (req, res) {
       return res
         .status(400)
         .send({ status: false, message: "Intern name is required" });
-    if (!isValid(name))
+    if (!isValidIntern(name))
       return res.status(400).send({
         status: false,
-        message: "Please enter a valid college name",
+        message: "Please enter a valid Intern name",
       });
     intern.name = name;
 
@@ -39,7 +40,9 @@ const createIntern = async function (req, res) {
       return res
         .status(400)
         .send({ status: false, message: "Enter a valid mail ID" });
-    // validating mobile number
+   
+   
+        // validating mobile number
     if (!mobile)
       return res
         .status(400)
@@ -74,9 +77,9 @@ const createIntern = async function (req, res) {
         $or: [{ name: collegeName }, { fullName: collegeName }],
       });
       if (!college)
-        return res.status(400).send({
+        return res.status(404).send({
           status: false,
-          message: "Please enter valid college name",
+          message: "College not found",
         });
       intern.collegeId = college._id;
     }

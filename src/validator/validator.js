@@ -5,11 +5,12 @@ const isValid = function (value) {
   else if (typeof value == "string") return true;
 };
 
+
 const isValidLink = function (link) {
-  return /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g.test(
-    link
-  );
+  return /(http[s]*:\/\/)([a-z\-_0-9\/.]+)\.([a-z.]{2,3})\/([a-z0-9\-_\/._~:?#\[\]@!$&'()*+,;=%]*)([a-z0-9]+\.)(jpg|jpeg|png)/i
+  .test(link);
 };
+
 
 const isValidName = function (name) {
   return /^[A-Za-z]+$/.test(name);
@@ -30,6 +31,12 @@ const isValidMobile = function (num) {
 };
 
 
+const isValidIntern = function (intern) {
+  return /^[a-zA-Z ]{2,30}$/.test(intern);
+};
+
+
+
 module.exports = {
   isValid,
   isValidLink,
@@ -37,5 +44,6 @@ module.exports = {
   isValidRequest,
   isValidMail,
   isValidMobile,
+  isValidIntern
 
 };
