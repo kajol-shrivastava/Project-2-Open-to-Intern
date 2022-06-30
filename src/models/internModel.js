@@ -15,7 +15,17 @@ const internSchema = new mongoose.Schema({
       message: "Please enter a valid email",
     },
   },
-  mobile: { type: Number, required: "Mobile number is required", unique: true },
+  mobile: {
+    type: Number,
+    required: "Mobile number is required",
+    unique: true,
+    validate: {
+      validator: function (num) {
+        return /^[6789]\d{9}$/.test(num);
+      },
+      message: "Please enter a valid Indian mobile number",
+    },
+  },
   collegeId: { type: objectId, ref: "college" },
   isDeleted: { type: Boolean, default: false },
 });

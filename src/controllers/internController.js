@@ -5,7 +5,7 @@ const {
   isValidName,
   isValidMobile,
   isValidMail,
-  isValidIntern
+  isValidIntern,
 } = require("../validator/validator");
 
 // -----------------------------------create Intern-----------------------------------
@@ -16,7 +16,7 @@ const createIntern = async function (req, res) {
         .status(400)
         .send({ status: false, message: "Please enter a valid input" });
 
-    const { name, mobile, email, collegeName } = req.body;
+    const { name, mobile, email, collegeName, isDeleted } = req.body;
     let intern = {};
 
     // validation for intern name
@@ -40,17 +40,17 @@ const createIntern = async function (req, res) {
       return res
         .status(400)
         .send({ status: false, message: "Enter a valid mail ID" });
-   
-   
-        // validating mobile number
+
+    // validating mobile number
     if (!mobile)
       return res
         .status(400)
         .send({ status: false, message: "Please enter Mobile number" });
     if (!isValidMobile(mobile))
-      return res
-        .status(400)
-        .send({ status: false, message: "Please enter valid mobile Number" });
+      return res.status(400).send({
+        status: false,
+        message: "Please enter valid Indian mobile Number",
+      });
 
     // checking for the duplicate mail ID and mobile number
     let validate = await internModel.findOne({
@@ -73,9 +73,12 @@ const createIntern = async function (req, res) {
         message: "Please enter the college name",
       });
     if (collegeName) {
-      let college = await collegeModel.findOne({
-        $or: [{ name: collegeName }, { fullName: collegeName }],
-      });
+      let college = await collegeModel.findOne(
+        {
+          $or: [{ name: collegeName }, { fullName: collegeName }],
+        },
+        { isDeleted: false }
+      );
       if (!college)
         return res.status(404).send({
           status: false,
@@ -83,6 +86,13 @@ const createIntern = async function (req, res) {
         });
       intern.collegeId = college._id;
     }
+
+    if (isDeleted === "true" || isDeleted === true)
+      return res.status(400).send({
+        status: false,
+        message:
+          "You are not allow to delete the same intern while creating it",
+      });
 
     // creating the data
     let savedData = await internModel.create(intern);
@@ -95,4 +105,3 @@ const createIntern = async function (req, res) {
 module.exports = {
   createIntern,
 };
-

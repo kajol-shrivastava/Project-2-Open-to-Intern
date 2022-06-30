@@ -16,7 +16,7 @@ const createCollege = async function (req, res) {
         .status(400)
         .send({ status: false, message: "Please enter a valid input" });
 
-    let { name, fullName, logoLink } = req.body;
+    let { name, fullName, logoLink, isDeleted } = req.body;
     let college = {};
 
     // name validation
@@ -30,7 +30,7 @@ const createCollege = async function (req, res) {
         message: "Please enter a valid college name",
       });
     // checking for duplicate data
-    let clg = await collegeModel.findOne({ name: name });
+    let clg = await collegeModel.findOne({ name: name, isDeleted: false });
     if (clg)
       return res
         .status(409)
@@ -59,6 +59,13 @@ const createCollege = async function (req, res) {
         .send({ status: false, message: "Please enter a valid logo link" });
     college.logoLink = logoLink;
 
+    if (isDeleted === "true" || isDeleted === true)
+      return res.status(400).send({
+        status: false,
+        message:
+          "You are not allow to delete the same college while creating it",
+      });
+
     let savedData = await collegeModel.create(college);
     return res.status(201).send({ status: true, data: savedData });
   } catch (err) {
@@ -81,7 +88,7 @@ const getDetails = async function (req, res) {
     if (!collegeName) {
       return res
         .status(400)
-        .send({ status: false, message: "Enter college name in the query" });
+        .send({ status: false, message: "Enter collegeName in the query" });
     }
 
     // validating the college name
@@ -117,7 +124,6 @@ const getDetails = async function (req, res) {
       .select({ name: 1, fullName: 1, logoLink: 1, _id: 0 });
 
     finalData._doc["interns"] = getIntern;
-    
 
     return res.status(200).send({ status: true, data: finalData });
   } catch (err) {
