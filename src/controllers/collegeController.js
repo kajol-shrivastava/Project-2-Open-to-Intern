@@ -17,12 +17,6 @@ const createCollege = async function (req, res) {
         .send({ status: false, message: "Please enter a valid input" });
 
     let { name, fullName, logoLink, isDeleted } = req.body;
-    console.log(fullName);
-    req.body.fullName = fullName
-      .split(" ")
-      .filter((abc) => abc)
-      .join(" ");
-    console.log(req.body.fullName);
     let college = {};
 
     // name validation
@@ -52,6 +46,11 @@ const createCollege = async function (req, res) {
       return res
         .status(400)
         .send({ status: false, message: "Please enter a valid full name" });
+    if(fullName)
+      req.body.fullName = fullName
+      .split(" ")
+      .filter((abc) => abc)
+      .join(" ");
     college.fullName = fullName;
 
     // logo link validation
