@@ -21,7 +21,7 @@ const isValidRequest = function (data) {
 };
 
 const isValidMail = function (v) {
-  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+  return /^([0-9a-z]([-_\\.]*[0-9a-z]+)*)@([a-z]([-_\\.]*[a-z]+)*)[\\.]([a-z]{2,9})+$/.test(v);
 };
 
 const isValidMobile = function (num) {
