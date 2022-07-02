@@ -47,7 +47,7 @@ const createCollege = async function (req, res) {
         .status(400)
         .send({ status: false, message: "Please enter a valid full name" });
     if(fullName)
-      req.body.fullName = fullName
+      fullName =req.body.fullName
       .split(" ")
       .filter((abc) => abc)
       .join(" ");
