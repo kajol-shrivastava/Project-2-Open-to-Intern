@@ -46,6 +46,8 @@ const createCollege = async function (req, res) {
       return res
         .status(400)
         .send({ status: false, message: "Please enter a valid full name" });
+
+        //removing extra spaces if any
     if(fullName)
       fullName =req.body.fullName
       .split(" ")
